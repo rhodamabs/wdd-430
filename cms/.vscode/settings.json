@@ -3,5 +3,6 @@
         "Barzee",
         "barzeer",
         "jacksonk"
-    ]
+    ],
+    "angular.enable-strict-mode-prompt": false
 }
