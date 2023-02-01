@@ -12,13 +12,13 @@
                  <cms-message-item
                  *ngFor="let message of messages"
                  [message]="message"
-                 (messageAdded)="onAddMessage(message)"></cms-message-item>
+                 ></cms-message-item>
               </div>
            </div>
         </div>
         <div class="panel-footer">
            <cms-message-edit
-           (addMessageEvent)="onAddMessage($event) "  ></cms-message-edit>
+           (addMessageEvent)="onAddMessage($event) " ></cms-message-edit>
         </div>
      </div>
   </div>
