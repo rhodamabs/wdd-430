@@ -8,11 +8,4 @@ import { Message } from '../message.model';
 })
 export class MessageItemComponent {
   @Input() message: Message;
-
-  @Output() messageAdded = new EventEmitter<Message>();
-
-  onAddMessage() {
-    this.messageAdded.emit();
-  }
-
 }
