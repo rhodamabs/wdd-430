@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,  } from '@angular/core';
 import { Recipe } from '../recipe.model';
+import { RecipeService } from './../recipe.service';
 
 @Component({
   selector: 'app-recipes-list',
@@ -7,14 +8,14 @@ import { Recipe } from '../recipe.model';
   styleUrls: ['./recipes-list.component.css']
 })
 export class RecipesListComponent {
-  recipes: Recipe[] = [
-    new Recipe('A test Recipe', 'This is a test Recipe',
-    'https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2022/09/1440/810/Million-dollar-bars-10.jpg?ve=1&tl=1')
-  ];
 
-constructor() {
+  recipe: Recipe[];
 
-}
+  constructor(private recipeService: RecipeService) {}
+
+  ngOnInit() {
+    this.recipe = this.recipeService.getRecipes();
+  }
 
 
 }
