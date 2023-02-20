@@ -11,13 +11,7 @@ export class ContactsComponent implements OnInit{
 
   selectedContact: Contact;
 
-  constructor(private contactService : ContactService) {}
+  constructor() {}
 
-  ngOnInit(){
-      this.contactService.contactSelectedEvent
-      .subscribe(
-        (contact : Contact) => {
-        this.selectedContact = contact;
-      })
-  }
+  ngOnInit(){ }
 }
