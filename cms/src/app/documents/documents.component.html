@@ -3,10 +3,10 @@
     <cms-document-list
     (selectedDocumentEvent)="selectedDocument = $event"></cms-document-list>
   </div>
-
 <div class="col-md-4">
-  <cms-document-detail
-  *ngIf="selectedDocument"
-  [document]="selectedDocument"></cms-document-detail>
+  <a  [routerLink]="['/new']"></a>
+  <a  [routerLink]="['/:id']"></a>
+  <a  [routerLink]="['/:id/edit']"></a>
+  <router-outlet></router-outlet>
 </div>
 </div>
