@@ -12,16 +12,17 @@ import { Subscription } from 'rxjs';
 export class ContactListComponent implements OnInit, OnDestroy{
 
 
- contacts: Contact[];
+  contacts: Contact[];
   private subscription: Subscription;
-    constructor(private contactService : ContactService) {}
+
+  constructor(private contactService : ContactService) {}
 
     ngOnInit(){
         this.contacts = this.contactService.getContacts();
-        this.contactService.contactListChangedEvent
+        this.subscription = this.contactService.contactListChangedEvent
       .subscribe(
-        (contacts: Contact[]) => {
-          this.contacts = contacts;
+        (contactsList: Contact[]) => {
+          this.contacts = contactsList;
         }
       );
     }

@@ -7,9 +7,9 @@
   </div>
   <hr>
   <div class="col-xs-12 pull-right">
-    <cms-contact-item *ngFor="let contactEl of contacts"
-    [contact]="contactEl"
-    ></cms-contact-item>
+    <cms-contact-item *ngFor="let contact of contacts" [contact]="contact" dnd-draggable [dragEnabled]="true"
+            [dragData]="contact" [dropZones]="['contactGroup']">
+     </cms-contact-item>
   </div>
 </div>
 </div>

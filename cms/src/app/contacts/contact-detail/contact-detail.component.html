@@ -1,34 +1,19 @@
-<div class="row contact-details">
-  <div class="row navbar navbar-default contact-header">
-    <div class="col-xs-9">
-      <div class="list-group-item-heading">
-        <h1>{{contact.name}}</h1>
+<div *ngIf="contact" class="panel panel-default">
+  <div class="panel-heading clearfix">
+      <div class="pull-left name-image-stack">
+          <h2 class="panel-title">{{ contact.name }}</h2>
+          <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive" style="max-height: 50px;">
       </div>
-
-      <div class="pull-left">
-        <span class="pull-left">
-          <img
-            [src]="contact.imageUrl"
-            alt="{{contact.name}}"
-            class="img-responsive"
-            style="max-height: 80px;">
-        </span>
+      <div class="pull-right btn-group btn-horizontal-padding">
+          <a [routerLink]="['../', contact.id, 'edit']" class="btn btn-primary">Edit</a>
+          <a (click)="onDelete()" class="btn btn-danger">Delete</a>
       </div>
-      <div class="pull-right">
-        <a [routerLink]="['../:id/edit']" class="btn btn-primary ">Edit</a>
-        <a (click)="onDelete()"  class="btn btn-danger ">Delete</a>
-      </div>
-      <div class="col-xs-12 contacts">
-        <a href="#" class="list-group-item clearfix">
+  </div>
+  <div class="panel-body">
+      <div class="row" *ngFor="let detail of get_detail_list(contact)">
           <div class="col-xs-12">
-            <h4 class="list-group-item-heading">Email : {{ contact.email}}</h4>
-            <p class="list-group-item-text">Phone : {{contact.phone}}</p>
+              <b>{{ detail.name }}: </b><span>{{ detail.value }}</span>
           </div>
-        </a>
       </div>
-    </div>
-    <hr>
   </div>
-  </div>
-
-
+</div>
