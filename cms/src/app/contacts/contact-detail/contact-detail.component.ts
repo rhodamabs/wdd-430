@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input ,OnInit} from '@angular/core';
 import { Contact } from '../contact.model'
 import { ContactService } from '../contact.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -10,8 +10,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 
 
-export class ContactDetailComponent {
-  @Input() contact: Contact | undefined;
+export class ContactDetailComponent implements OnInit{
+  @Input() contact: Contact
 
   constructor(
     private contactService: ContactService,

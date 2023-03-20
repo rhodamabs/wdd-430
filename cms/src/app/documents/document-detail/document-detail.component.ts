@@ -14,6 +14,7 @@ export class DocumentDetailComponent implements OnInit{
   document : Document;
   nativeWindow: any;
 
+
   constructor(
     private documentService: DocumentsService,
     private route: ActivatedRoute,

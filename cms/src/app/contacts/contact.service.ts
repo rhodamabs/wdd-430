@@ -2,47 +2,58 @@ import { Injectable } from '@angular/core';
 import { Contact } from './contact.model';
 import {MOCKCONTACTS} from './MOCKCONTACTS';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
-  // contactSelectedEvent = new EventEmitter<Contact>();
-  // contactChangedEvent = new EventEmitter<Contact[]>();
+
   contactListChangedEvent = new Subject<Contact[]>();
   contacts : Contact[] = [];
   private maxContactId: number;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.contacts = MOCKCONTACTS;
     this.maxContactId = this.getMaxId();
    }
 
-   getContacts() : Contact[] {
-    return this.contacts.slice();
+   getContacts() {
+    this.http.get('https://wdd430-b4ae9-default-rtdb.firebaseio.com/contacts.json')
+    .subscribe(
+      {
+        next: (contacts: Contact []) => {
+          this.contacts= contacts.sort();
+          this.maxContactId = this.getMaxId();
+          this.contactListChangedEvent.next(this.contacts.slice());
+        },
+        error: (error: any) => {
+          console.log('Something went wrong', error);
+        }
+      }
+    )
+
+   }
+   storeContacts() {
+    this.http.put('https://wdd430-b4ae9-default-rtdb.firebaseio.com/documents.json',
+      JSON.stringify(this.contacts),
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ).subscribe(
+      () => {
+        this.contactListChangedEvent.next(this.contacts.slice());
+      }
+    )
+  }
+
+   getContact(id: string):Contact {
+    return this.contacts.find(contact => contact.id == id)
    }
 
-   getContact(id: string): Contact {
-    for (let contact of this.contacts ){
-          if(contact.id == id){
-            console.log('Found');
-            return contact;
-          }
-    }
-    return null;
-   }
 
-  //  deleteContact(contact: Contact) {
-  //   if (!contact) {
-  //     return;
-  //   }
-  //   const pos = this.contacts.indexOf(contact);
-  //   if (pos < 0) {
-  //     return;
-  //   }
-  //   this.contacts.splice(pos, 1);
-  //   this.contactListChangedEvent.next(this.contacts.slice());
-  //  }
   getMaxId(): number {
     let maxId = 0;
     for (let contact of this.contacts) {

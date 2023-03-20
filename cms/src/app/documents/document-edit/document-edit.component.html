@@ -6,12 +6,9 @@
         <div class="col-sm-12 form-group">
           <label for="name">Document Title:</label>
           <input
-            type="text"
-            id="name"
-            class="form-control"
-            size="120"
-            max="120"
-            name="name"
+            type="text" id="name"
+            class="form-control" size="120"
+            max="120" name="name"
             [ngModel]="document?.name" required
             #name="ngModel">
         </div>
@@ -21,12 +18,9 @@
         <div class="col-sm-12 form-group">
           <label for="description">Document Description:</label>
           <input
-            type="text"
-            id="description"
-            class="form-control"
-            size="120"
-            max="255"
-            name="description"
+            type="text" id="description"
+            class="form-control" size="120"
+            max="255" name="description"
             [ngModel]="document?.description">
         </div>
       </div>
@@ -35,14 +29,11 @@
         <div class="col-sm-12 form-group">
           <label for="url">Document URL:</label>
           <input
-            type="text"
-            id="url"
-            class="form-control"
-            size="150"
-            max="255"
-            name="url"
-            [ngModel]="document?.url" required
-            #url="ngModel">
+            type="text" id="url"
+            class="form-control" size="150"
+            max="255" name="url"
+            [ngModel]="document?.url"
+            required #url="ngModel">
         </div>
         <div class="alert alert-danger" *ngIf="name.invalid||url.invalid">The Document Title and Document URL are
           required fields</div>

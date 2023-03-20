@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm} from '@angular/forms';
 import { DocumentsService } from '../documents.service';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { Document } from '../document.model';
+
 
 @Component({
   selector: 'cms-document-edit',
@@ -24,21 +25,23 @@ export class DocumentEditComponent implements OnInit {
 
 
     ngOnInit(){
-      this.route.params.subscribe((params: Params) => {
-        const id = params['id'];
-        if (!id) {
+      this.route.params.subscribe(
+        (params: Params) => {
+        this.id = params['id'];
+        if (!this.id == null) {
           this.editMode = false;
           return;
         }
-        this.originalDocument = this.documents.getDocument(this.id);
+        this.originalDocument = this.documents
+        .getDocument(this.id);
 
-        if (!this.originalDocument) {
+        if (!this.originalDocument == null){
+          this.editMode = false
           return;
         }
         this.editMode = true;
         console.log("Edit mode is: "+ this.editMode);
-        // copies originalDocument object and into this.document object - no reference passed
-        this.document = JSON.parse(JSON.stringify(this.originalDocument));
+        this.document = structuredClone(this.originalDocument);
       })
     }
 

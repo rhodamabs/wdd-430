@@ -1,34 +1,70 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Message } from './message.model';
-import { MOCKMESSAGES } from './MOCKMESSAGES';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
+  messages: Message[] = [];
   messageChangedEvent = new EventEmitter<Message[]>();
-  messages : Message[] = [];
+  private maxMessageId: number;
 
-  constructor() { 
-    this.messages = MOCKMESSAGES;
+  constructor(private http: HttpClient ) {
   }
 
-  getMessages() : Message[] {
-    return this.messages.slice();
-  }
-
-   getMessage(id: string) : Message {
+  getMaxId(): number {
+    let maxId = 0;
     for (let message of this.messages) {
-      if (message.id === id){
-        return message;
-      }
+        let currentId = parseInt(message.id);
+        if (currentId > maxId) {
+        maxId = currentId;
+        }
     }
-    return null;
-   }
+    return maxId;
+  }
 
-   addMessage(message: Message) {
+  getMessages() {
+    this.http.get<Message[]>('https://wdd430-b4ae9-default-rtdb.firebaseio.com/messages.json').subscribe(
+      {
+        next: (messages: Message[]) => {
+          this.messages = messages.sort();
+          this.maxMessageId = this.getMaxId();
+          this.messageChangedEvent.next(this.messages.slice());
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          console.log("GET request complete.");
+        }
+      }
+    )
+  }
+
+  storeMessages() {
+    this.http.put('https://wdd430-b4ae9-default-rtdb.firebaseio.com/messages.json',
+      JSON.stringify(this.messages),
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ).subscribe(
+      () => {
+        this.messageChangedEvent.next(this.messages.slice());
+      }
+    )
+  }
+
+  getMessage(id: string): Message | undefined {
+  
+    return this.messages.find(message => message.id == id)
+  }
+
+  addMessage(message: Message) {
     this.messages.push(message);
-    this.messageChangedEvent.emit(this.messages.slice());
-   }
+    this.storeMessages();
+  }
+
 }
